@@ -1,0 +1,33 @@
+@startuml "external service"
+    node "external app" as external1
+    node "external app" as external2
+
+    node "cluster" {
+
+        component "service a" as servicea
+        component "service external" as serviceexternal
+        
+        node "node 1" {
+
+            component "pod a" as poda1
+            component "pod b" as podb
+            component "pod c" as podc
+
+        }
+        
+        node "node 2" {
+            component "pod a" as poda2
+            component "pod a" as poda3
+        }
+    }
+
+    serviceexternal-->external1
+    serviceexternal-->external2
+    servicea-down->poda1
+    servicea-down->poda2
+    servicea-down->poda3
+    podb-up->servicea
+    podc-->servicea
+    podc-->serviceexternal
+    podb-down->serviceexternal
+@enduml

@@ -1,0 +1,30 @@
+@startuml "service nodeport"
+
+node "client" as client
+component "load balancer" as loadbalancer
+
+node "cluster" {
+    node "service a" as servicea
+
+    node "node 1" as node1{
+        component "pod a" as poda1
+        component "pod a" as poda2
+    }
+
+    node "node 2" as node2{
+        component "pod a" as poda3
+
+    }
+}
+
+loadbalancer -up-> node1
+loadbalancer -up-> node2
+
+node1 -up-> servicea
+node2 -up-> servicea
+servicea -down->poda1
+servicea -down->poda2
+servicea -down->poda3
+
+client -right-> loadbalancer
+@enduml
